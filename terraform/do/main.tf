@@ -45,13 +45,13 @@ resource "digitalocean_droplet" "dorunner" {
   }
   #Upload runner agent install script
   provisioner "file" {
-    source      = "runner-agent-install"
+    source      = var.file_agent_install
     destination = "/tmp/runner-agent-install"
   }
 
   #Upload runner provisioner script
   provisioner "file" {
-    source      = "runner-provisioner"
+    source      = var.file_provisioner
     destination = "/tmp/runner-provisioner"
   }
 
@@ -60,6 +60,8 @@ resource "digitalocean_droplet" "dorunner" {
       "export PATH=$PATH:/usr/bin",
       "sudo apt update",
       "sudo apt -y upgrade",
+      "curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -",
+      "sudo apt install -y nodejs",
       "cd /tmp",
       "chmod +x /tmp/runner-agent-install",
       "chmod +x /tmp/runner-provisioner",

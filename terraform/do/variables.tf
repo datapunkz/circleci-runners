@@ -8,6 +8,18 @@ variable ssh_pvt_key {
   description = "The private ssh certificate in the user's .ssh/ dir -> $HOME/.ssh/id_rsa"
 }
 
+variable file_agent_install {
+  type        = string
+  default     = "../../runner-scripts/runner-agent-install"
+  description = "Specifies the runner-agent-install script file path"
+}
+
+variable file_provisioner {
+  type        = string
+  default     = "../../runner-scripts/runner-provisioner"
+  description = "Specifies the runner-provisioner script file path"
+}
+
 variable runner_platform {
   type        = string
   default     = "linux/amd64"
