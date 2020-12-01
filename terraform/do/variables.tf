@@ -11,7 +11,7 @@ variable ssh_pvt_key {
 variable runner_platform {
   type        = string
   default     = "linux/amd64"
-  description = "Defines the runner architecture platform linux/amd64, linux/arm64, darwin/amd64"
+  description = "Defines the runner architecture platform choose one: [linux/amd64, linux/arm64, darwin/amd64]"
 }
 
 variable runner_name {
