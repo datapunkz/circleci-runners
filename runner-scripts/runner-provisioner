@@ -18,8 +18,9 @@ EOF
 
 # Create the CircleCI user + working dir
 id -u circleci &>/dev/null || adduser --uid 1500 --disabled-password --gecos GECOS circleci
+echo "circleci ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 mkdir -p $PREFIX/workdir
-chown -R circleci $PREFIX/workdir
+chown -R circleci:circleci $PREFIX/workdir
 
 # Create Launch script
 cat <<'EOF' > $PREFIX/launch-task
@@ -50,11 +51,11 @@ systemd-run \
     --uid "$USER_ID" --unit "$unit" -- "$@"
 EOF
 
+# Assign ownership and access to file
 sudo chown root: $PREFIX/launch-task
 sudo chmod 755 $PREFIX/launch-task
 
 # Create and enable systemd unit for this service
-
 cat <<'EOF' > $PREFIX/circleci.service
 [Unit]
 Description=CircleCI Runner
@@ -69,6 +70,7 @@ TimeoutStopSec=600
 WantedBy = multi-user.target
 EOF
 
+# Assign ownership and access to file
 sudo chown root: $PREFIX/circleci.service
 sudo chmod 755 $PREFIX/circleci.service
 
