@@ -3,9 +3,15 @@ variable "do_token" {
   description = "Your DigitalOcean API token. See https://cloud.digitalocean.com/account/api/tokens to generate a token."
 }
 
-variable ssh_pvt_key {
+variable ssh_key_file {
   type        = string
-  description = "The private ssh certificate in the user's .ssh/ dir -> $HOME/.ssh/id_rsa"
+  description = "The private ssh certificate in the user's .ssh/ dir -> $HOME/.ssh/id_rsa. Terrform uses this to access & run commands on node."
+}
+
+variable do_ssh_key {
+  type        = string
+  default     = "ariv3ra@gmail.com"
+  description = "Specifies a Public SSH cert that exists in the DO Account Security section. See https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/to-account/"
 }
 
 variable file_agent_install {
@@ -52,4 +58,10 @@ variable "image_name" {
   type        = string
   description = "defines the DigitalOcean image name to install to compute node"
   default     = "ubuntu-20-04-x64"
+}
+
+variable droplet_count {
+  type        = number
+  default     = 2
+  description = "The number of Droplet nodes you want to create"
 }

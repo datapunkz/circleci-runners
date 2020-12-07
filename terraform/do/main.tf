@@ -24,12 +24,13 @@ provider "digitalocean" {
 }
 
 data "digitalocean_ssh_key" "terraform" {
-  name = "ariv3ra@gmail.com"
+  name = var.do_ssh_key
 }
 
 resource "digitalocean_droplet" "dorunner" {
+  count              = var.droplet_count
   image              = var.image_name
-  name               = var.runner_name
+  name               = "${var.runner_name}-${count.index}"
   region             = var.region
   size               = var.node_size
   private_networking = true
@@ -40,7 +41,7 @@ resource "digitalocean_droplet" "dorunner" {
     host        = self.ipv4_address
     user        = "root"
     type        = "ssh"
-    private_key = file(var.ssh_pvt_key)
+    private_key = file(var.ssh_key_file)
     timeout     = "3m"
   }
   #Upload runner agent install script
@@ -71,12 +72,10 @@ resource "digitalocean_droplet" "dorunner" {
   }
 }
 
-output ip_address {
-  value       = digitalocean_droplet.dorunner.ipv4_address
-  description = "The public ip address for the compute node"
+output "runner_hosts and ip_addresses" {
+  value = {
+    for instance in digitalocean_droplet.dorunner :
+    instance.name => instance.ipv4_address
+  }
 }
 
-output runner_name {
-  value       = var.runner_name
-  description = "The name of the runner node"
-}
