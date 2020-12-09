@@ -10,7 +10,7 @@ variable ssh_key_file {
 
 variable do_ssh_key {
   type        = string
-  default     = "ariv3ra@gmail.com"
+  default     = "ariv3ra-ssh"
   description = "Specifies a Public SSH cert that exists in the DO Account Security section. See https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/to-account/"
 }
 

@@ -44,6 +44,7 @@ resource "digitalocean_droplet" "dorunner" {
     private_key = file(var.ssh_key_file)
     timeout     = "3m"
   }
+
   #Upload runner agent install script
   provisioner "file" {
     source      = var.file_agent_install
@@ -72,9 +73,9 @@ resource "digitalocean_droplet" "dorunner" {
   }
 }
 
-output "runner_hosts and ip_addresses" {
+output "runner_hosts_and_ip_addresses" {
   value = {
-    for instance in digitalocean_droplet.dorunner :
+    for instance in digitalocean_droplet.dorunner:
     instance.name => instance.ipv4_address
   }
 }
